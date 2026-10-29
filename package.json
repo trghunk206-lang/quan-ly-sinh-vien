@@ -1,0 +1,14 @@
+{
+  "name": "quan-ly-sinh-vien",
+  "version": "1.0.0",
+  "description": "Phần mềm quản lý sinh viên có đăng nhập và phân quyền (admin / giảng viên / sinh viên)",
+  "main": "server.js",
+  "private": true,
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js",
+    "reset-password": "node --disable-warning=ExperimentalWarning reset-password.js"
+  },
+  "license": "UNLICENSED"
+}
