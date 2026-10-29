@@ -1,0 +1,551 @@
+<html style="margin:0;padding:0;">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<script>
+(function(){
+  var s=document.createElement('style');
+  s.textContent=':root{--bg:#faf9f4;--card:#ffffff;--text:#0f172a;--muted:#64748b;--accent:#297a2e;--accent-soft:rgba(41,122,46,.14);--accent2:#d97706;--accent2-soft:rgba(217,119,6,.14);--border:rgba(15,23,42,.08)}'
+  +'.reveal{opacity:0;transform:translateY(14px);animation:fu .5s ease forwards}@keyframes fu{to{opacity:1;transform:translateY(0)}}'
+  +'.mod-btn{color:var(--muted);border-bottom:3px solid transparent;transition:all .2s;cursor:pointer;font-family:inherit}.mod-btn.active{color:var(--text);background:var(--accent-soft);border-bottom:3px solid var(--accent);font-weight:700}.mod-btn:not(.active):hover{color:var(--text);background:rgba(15,23,42,.04)}'
+  +'.role-chip{cursor:pointer;transition:all .2s;font-family:inherit}.role-chip.active{background:var(--accent);color:#fff;box-shadow:0 4px 12px rgba(41,122,46,.3)}'
+  +'.tbl-row{transition:background .15s}.tbl-row:hover{background:rgba(41,122,46,.05)}'
+  +'.metric-card{transition:transform .2s,box-shadow .2s}.metric-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(41,122,46,.12)}'
+  +'.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700}'
+  +'.fade-in{animation:fi .25s ease}@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}'
+  +'.modal-overlay{position:absolute;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:50;backdrop-filter:blur(2px)}'
+  +'input[type=text],input[type=password],input[type=number],input[type=date],input[type=email],input[type=tel],select,textarea{font-family:inherit;outline:none}input:focus,select:focus{border-color:var(--accent)!important}'
+  +'.grade-input{width:56px;padding:4px 6px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:13px;font-variant-numeric:tabular-nums;box-sizing:border-box}'
+  +'.lock-btn{background:none;border:none;cursor:pointer;padding:4px 6px;vertical-align:middle}'
+  +'.demo-acc{cursor:pointer;transition:all .15s;font-family:inherit}.demo-acc:hover{background:var(--accent-soft);border-color:var(--accent);transform:translateY(-1px);}'
+  +'.shake{animation:shk .4s ease}@keyframes shk{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}'
+  +'.hpu-logo{border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(15,23,42,.15);object-fit:cover;flex-shrink:0;}';
+  document.head.appendChild(s);
+})();
+</script>
+<div id="app-root" style="background-color:transparent;box-sizing:border-box;position:relative;">
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div id="login-screen" style="position:absolute;inset:0;z-index:100;background:linear-gradient(160deg,#eef4f0 0%,var(--bg) 60%);min-height:640px;display:flex;align-items:center;justify-content:center;padding:24px 16px;">
+  <div style="position:absolute;top:0;left:0;right:0;height:200px;background:linear-gradient(135deg,#1e5aa8,#1d5c21);overflow:hidden;">
+    <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.08);"></div>
+    <div style="position:absolute;bottom:-60px;left:10%;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.06);"></div>
+  </div>
+  <div class="fade-in" style="position:relative;width:100%;max-width:420px;background:var(--card);border-radius:20px;box-shadow:0 20px 60px rgba(30,90,168,.2);padding:30px 28px;border:1px solid var(--border);">
+    <div style="text-align:center;margin-bottom:20px;">
+      <img src="https://p16-flow-image-sign.ibyteimg.com/tos-mya-i-uo7y4d541q/f61185496c79495686cff4141c5d8a7a.png~tplv-0es2k971ck-image.image?rcl=20261024232802E1842BBE695A7BAEF6B5&rk3s=8e244e95&rrcfp=935dee89&x-expires=1793460483&x-signature=yeFNCOXQzMk4eV%2Fl9c4o3Qav9wI%3D" onerror="this.style.display='none'" alt="Logo Trường Đại học Hải Phòng" class="hpu-logo" style="width:76px;height:76px;margin:0 auto 10px;display:block;">
+      <h1 style="font-size:21px;font-weight:800;margin:0;line-height:1.25;color:#1e5aa8;">HPUni Portal</h1>
+      <p style="color:var(--muted);font-size:12.5px;margin:4px 0 0;">Phần mềm Quản lý Hồ sơ Sinh viên<br>Trường Đại học Hải Phòng</p>
+    </div>
+    <div id="login-box">
+      <div style="margin-bottom:12px;">
+        <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:5px;">Tên đăng nhập</label>
+        <div style="position:relative;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <input id="login-user" type="text" placeholder="Nhập tên đăng nhập" autocomplete="off" style="width:100%;padding:11px 12px 11px 40px;border-radius:10px;border:1px solid var(--border);font-size:14px;box-sizing:border-box;background:var(--bg);">
+        </div>
+      </div>
+      <div style="margin-bottom:8px;">
+        <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:5px;">Mật khẩu</label>
+        <div style="position:relative;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input id="login-pass" type="password" placeholder="Nhập mật khẩu" style="width:100%;padding:11px 12px 11px 40px;border-radius:10px;border:1px solid var(--border);font-size:14px;box-sizing:border-box;background:var(--bg);">
+        </div>
+      </div>
+      <div id="login-err" style="color:#dc2626;font-size:12px;font-weight:600;min-height:18px;margin-bottom:6px;"></div>
+      <button id="login-btn" style="width:100%;padding:12px;border-radius:10px;background:linear-gradient(135deg,#1e5aa8,var(--accent));color:#fff;font-weight:700;font-size:15px;border:none;cursor:pointer;font-family:inherit;box-shadow:0 4px 14px rgba(30,90,168,.35);margin-bottom:16px;">Đăng nhập</button>
+      <div style="border-top:1px solid var(--border);padding-top:14px;">
+        <p style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin:0 0 10px;text-align:center;">Tài khoản demo (mật khẩu: 123456)</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="demo-acc" data-u="an.nv" style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);font-size:12px;text-align:left;"><strong style="display:block;font-size:12px;">an.nv</strong><span style="color:var(--muted);font-size:11px;">Sinh viên</span></button>
+          <button class="demo-acc" data-u="ductm" style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);font-size:12px;text-align:left;"><strong style="display:block;font-size:12px;">ductm</strong><span style="color:var(--muted);font-size:11px;">Giảng viên</span></button>
+          <button class="demo-acc" data-u="huongnt" style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);font-size:12px;text-align:left;"><strong style="display:block;font-size:12px;">huongnt</strong><span style="color:var(--muted);font-size:11px;">Cán bộ quản lý</span></button>
+          <button class="demo-acc" data-u="admin" style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);font-size:12px;text-align:left;"><strong style="display:block;font-size:12px;">admin</strong><span style="color:var(--muted);font-size:11px;">Quản trị viên</span></button>
+        </div>
+        <p style="font-size:11px;color:var(--muted);text-align:center;margin:10px 0 0;">Gợi ý: tài khoản <strong>cuong.lv</strong> đang bị khóa</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="color:var(--text);font-family:'Baloo 2',sans-serif;background:var(--bg);">
+
+  <!-- HERO -->
+  <div style="position:relative;overflow:hidden;border-radius:0 0 24px 24px;">
+    <img src="https://p16-flow-image-sign.ibyteimg.com/tos-mya-i-3rsxbfecgb/rc_gen_image/0f246bae0eb94caaaba61a6836ebf1e0.jpeg~tplv-0es2k971ck-image.image?rcl=202610231528029DD520CA23315EE5D495&rk3s=8e244e95&rrcfp=02a80fc2&x-expires=1795332580&x-signature=0E3IXkHcKEVi2sDQa6PH5lPlRuU%3D" onerror="this.style.display='none'" alt="Khuôn viên Trường Đại học Hải Phòng" loading="lazy" style="width:100%;height:150px;object-fit:cover;display:block;">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(250,249,244,0.2) 0%,rgba(250,249,244,0.92) 75%,var(--bg) 100%);"></div>
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 28px 10px;display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;">
+      <img src="https://p16-flow-image-sign.ibyteimg.com/tos-mya-i-uo7y4d541q/f61185496c79495686cff4141c5d8a7a.png~tplv-0es2k971ck-image.image?rcl=20261024232802E1842BBE695A7BAEF6B5&rk3s=8e244e95&rrcfp=935dee89&x-expires=1793460483&x-signature=yeFNCOXQzMk4eV%2Fl9c4o3Qav9wI%3D" onerror="this.style.display='none'" alt="Logo HPU" class="hpu-logo" style="width:52px;height:52px;">
+      <div style="flex:1;min-width:180px;">
+        <p style="font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#1e5aa8;font-weight:700;margin:0;">HPUni · Phần mềm Quản lý Hồ sơ Sinh viên</p>
+        <h1 style="font-size:20px;font-weight:800;margin:2px 0 0;line-height:1.15;">Trường Đại học Hải Phòng <span style="background:linear-gradient(100deg,#1e5aa8,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;">— Cổng thông tin sinh viên</span></h1>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <div id="user-chip" style="display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:7px 12px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+          <div id="user-avatar" style="width:34px;height:34px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;">S</div>
+          <div><div id="user-name" style="font-weight:700;font-size:13px;line-height:1.2;">—</div><div id="user-role" style="font-size:11px;color:var(--muted);">—</div></div>
+        </div>
+        <button id="logout-btn" style="padding:8px 14px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:#dc2626;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Đăng xuất
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-16" style="margin-top:8px;">
+    <div class="reveal flex gap-2 mb-5 flex-wrap" id="role-bar"></div>
+    <div class="reveal flex gap-1 mb-5 rounded-xl p-1 flex-wrap" id="mod-bar" style="background:var(--card);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.05);"></div>
+    <div id="err-box" style="display:none;background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:14px;border-radius:12px;margin-bottom:14px;font-size:13px;"></div>
+    <div id="main-content" class="fade-in"></div>
+    <div class="mt-14 pt-6" style="border-top:1px solid var(--border);text-align:center;">
+      <p style="color:var(--muted);font-size:11px;margin:0;">HPUni · Phần mềm Quản lý Hồ sơ Sinh viên — Trường Đại học Hải Phòng · 171 Phan Đăng Lưu, Ngô Quyền, Hải Phòng · Dữ liệu minh họa theo đặc tả Công nghệ phần mềm</p>
+    </div>
+  </div>
+
+  <div id="modal" class="modal-overlay" style="display:none;">
+    <div class="fade-in" id="modal-box" style="background:var(--card);border-radius:16px;padding:22px;width:100%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,.25);max-height:80vh;overflow-y:auto;"></div>
+  </div>
+</div>
+</div>
+
+<script>
+(function(){
+try{
+var LOGO='https://p16-flow-image-sign.ibyteimg.com/tos-mya-i-uo7y4d541q/f61185496c79495686cff4141c5d8a7a.png~tplv-0es2k971ck-image.image?rcl=20261024232802E1842BBE695A7BAEF6B5&rk3s=8e244e95&rrcfp=935dee89&x-expires=1793460483&x-signature=yeFNCOXQzMk4eV%2Fl9c4o3Qav9wI%3D';
+var ROLE_MAP={'Sinh viên':'sv','Giảng viên':'gv','Cán bộ quản lý':'cb','Quản trị viên':'admin'};
+var ROLES = {
+  sv:    {label:'Sinh viên', name:'Nguyễn Văn An',  id:'B21DCCN001', modules:[['dash','Tổng quan'],['profile','Hồ sơ cá nhân'],['reg','Đăng ký môn học'],['grades','Kết quả học tập'],['tuition','Học phí'],['drl','Điểm rèn luyện']]},
+  gv:    {label:'Giảng viên', name:'TS. Trần Minh Đức', id:'GV00123', modules:[['dash','Tổng quan'],['courses','Môn học phân công'],['gradeEntry','Nhập điểm'],['profile','Thông tin cá nhân']]},
+  cb:    {label:'Cán bộ quản lý', name:'Nguyễn Thị Hương', id:'CB0045', modules:[['dash','Tổng quan'],['svMgmt','Quản lý sinh viên'],['drlMgmt','Điểm rèn luyện'],['reports','Báo cáo thống kê']]},
+  admin: {label:'Quản trị viên', name:'Admin Hệ thống', id:'ADMIN01', modules:[['dash','Tổng quan'],['accounts','Quản lý tài khoản'],['logs','Nhật ký hệ thống'],['backup','Sao lưu dữ liệu']]}
+};
+var DEMO_PASS='123456';
+var students = [
+  {id:'B21DCCN001',name:'Nguyễn Văn An',dob:'2003-05-12',gender:'Nam',address:'Hải An, Hải Phòng',email:'an.nv@student.hpuni.edu.vn',phone:'0912345001',className:'CNTT2-01',faculty:'Công nghệ thông tin',course:'Kỹ thuật phần mềm',year:2021,status:'Đang học',classEval:{hocTap:18,hoatDong:16,daoDuc:19,kyLuat:20,doanHoi:15},facultyEval:{hocTap:19,hoatDong:17,daoDuc:19,kyLuat:20,doanHoi:16}},
+  {id:'B21DCCN002',name:'Trần Thị Bình',dob:'2003-08-25',gender:'Nữ',address:'Dương Kinh, Hải Phòng',email:'binh.tt@student.hpuni.edu.vn',phone:'0912345002',className:'CNTT1-02',faculty:'Công nghệ thông tin',course:'Hệ thống thông tin',year:2021,status:'Đang học',classEval:{hocTap:20,hoatDong:18,daoDuc:19,kyLuat:20,doanHoi:17},facultyEval:{hocTap:19,hoatDong:18,daoDuc:18,kyLuat:20,doanHoi:17}},
+  {id:'B21DCCN003',name:'Lê Văn Cường',dob:'2003-02-18',gender:'Nam',address:'Kiến An, Hải Phòng',email:'cuong.lv@student.hpuni.edu.vn',phone:'0912345003',className:'CNTT2-01',faculty:'Công nghệ thông tin',course:'Kỹ thuật phần mềm',year:2021,status:'Đang học',classEval:{hocTap:15,hoatDong:12,daoDuc:16,kyLuat:15,doanHoi:12},facultyEval:{hocTap:16,hoatDong:13,daoDuc:16,kyLuat:14,doanHoi:13}},
+  {id:'B21DCCN004',name:'Phạm Thị Dung',dob:'2003-11-03',gender:'Nữ',address:'Hồng Bàng, Hải Phòng',email:'dung.pt@student.hpuni.edu.vn',phone:'0912345004',className:'CNTT3-01',faculty:'Công nghệ thông tin',course:'An toàn thông tin',year:2021,status:'Đang học',classEval:{hocTap:17,hoatDong:15,daoDuc:17,kyLuat:18,doanHoi:13},facultyEval:{hocTap:17,hoatDong:16,daoDuc:17,kyLuat:18,doanHoi:14}},
+  {id:'B21DCCN005',name:'Hoàng Văn Em',dob:'2003-07-30',gender:'Nam',address:'Ngô Quyền, Hải Phòng',email:'em.hv@student.hpuni.edu.vn',phone:'0912345005',className:'CNTT1-02',faculty:'Công nghệ thông tin',course:'Hệ thống thông tin',year:2021,status:'Đang học',classEval:{hocTap:20,hoatDong:19,daoDuc:20,kyLuat:20,doanHoi:18},facultyEval:{hocTap:20,hoatDong:18,daoDuc:19,kyLuat:20,doanHoi:18}},
+  {id:'B21DCCN006',name:'Vũ Thị Hà',dob:'2003-01-15',gender:'Nữ',address:'Thủy Nguyên, Hải Phòng',email:'ha.vt@student.hpuni.edu.vn',phone:'0912345006',className:'CNTT2-01',faculty:'Công nghệ thông tin',course:'Kỹ thuật phần mềm',year:2021,status:'Đang học',classEval:{hocTap:13,hoatDong:10,daoDuc:14,kyLuat:13,doanHoi:10},facultyEval:{hocTap:12,hoatDong:11,daoDuc:13,kyLuat:12,doanHoi:10}},
+  {id:'B21DCCN007',name:'Đỗ Văn Hùng',dob:'2003-09-22',gender:'Nam',address:'An Dương, Hải Phòng',email:'hung.dv@student.hpuni.edu.vn',phone:'0912345007',className:'CNTT3-01',faculty:'Công nghệ thông tin',course:'An toàn thông tin',year:2021,status:'Đang học',classEval:{hocTap:18,hoatDong:16,daoDuc:17,kyLuat:18,doanHoi:15},facultyEval:{hocTap:18,hoatDong:17,daoDuc:18,kyLuat:19,doanHoi:15}},
+  {id:'B21DCCN008',name:'Bùi Thị Lan',dob:'2003-04-08',gender:'Nữ',address:'Kiến Thụy, Hải Phòng',email:'lan.bt@student.hpuni.edu.vn',phone:'0912345008',className:'CNTT1-02',faculty:'Công nghệ thông tin',course:'Hệ thống thông tin',year:2021,status:'Đang học',classEval:{hocTap:12,hoatDong:9,daoDuc:13,kyLuat:11,doanHoi:10},facultyEval:{hocTap:11,hoatDong:10,daoDuc:12,kyLuat:10,doanHoi:9}}
+];
+var courses = [
+  {id:'IT3011',name:'Lập trình hướng đối tượng',credits:3,semester:'HK1 2023-2024',lecturer:'TS. Trần Minh Đức',capacity:80,registered:62,fee:540000,open:true},
+  {id:'IT3020',name:'Cơ sở dữ liệu',credits:3,semester:'HK1 2023-2024',lecturer:'TS. Nguyễn Hoàng Nam',capacity:70,registered:70,fee:540000,open:true},
+  {id:'IT3032',name:'Mạng máy tính',credits:3,semester:'HK1 2023-2024',lecturer:'PGS.TS. Lê Thị Mai',capacity:75,registered:48,fee:540000,open:true},
+  {id:'IT3041',name:'Kỹ thuật phần mềm',credits:3,semester:'HK1 2023-2024',lecturer:'TS. Trần Minh Đức',capacity:60,registered:55,fee:540000,open:true},
+  {id:'IT3050',name:'An toàn thông tin',credits:2,semester:'HK1 2023-2024',lecturer:'TS. Phạm Văn Bình',capacity:50,registered:30,fee:360000,open:true},
+  {id:'EN1001',name:'Tiếng Anh 1',credits:3,semester:'HK1 2023-2024',lecturer:'ThS. Đỗ Thu Hà',capacity:100,registered:85,fee:540000,open:false}
+];
+var grades = {};
+(function(){var i,j;for(i=0;i<students.length;i++){var g={};for(j=0;j<courses.length-1;j++){var c=courses[j];g[c.id]={qt:Math.round((5+Math.random()*5)*10)/10,ck:Math.round((4+Math.random()*6)*10)/10};}grades[students[i].id]=g;}})();
+var tuition = {
+  'B21DCCN001':{items:[{label:'Học phí HK1 2023-2024 (14 tín)',amount:7560000},{label:'Bảo hiểm y tế',amount:810000},{label:'Phòng ký túc xá (6 tháng)',amount:1800000}],paid:8000000,status:'Chưa đủ'},
+  'B21DCCN002':{items:[{label:'Học phí HK1 2023-2024 (14 tín)',amount:7560000},{label:'Bảo hiểm y tế',amount:810000}],paid:8370000,status:'Đã đủ'},
+  'B21DCCN003':{items:[{label:'Học phí HK1 2023-2024 (14 tín)',amount:7560000},{label:'Bảo hiểm y tế',amount:810000},{label:'Phòng ký túc xá (6 tháng)',amount:1800000}],paid:0,status:'Chưa đóng'},
+  'B21DCCN004':{items:[{label:'Học phí HK1 2023-2024 (14 tín)',amount:7560000},{label:'Bảo hiểm y tế',amount:810000}],paid:8370000,status:'Đã đủ'},
+  'B21DCCN005':{items:[{label:'Học phí HK1 2023-2024 (14 tín)',amount:7560000},{label:'Bảo hiểm y tế',amount:810000},{label:'Phòng ký túc xá (6 tháng)',amount:1800000}],paid:10170000,status:'Đã đủ'},
+  'B21DCCN006':{items:[{label:'Học phí HK1 2023-2024 (14 tín)',amount:7560000},{label:'Bảo hiểm y tế',amount:810000}],paid:3000000,status:'Chưa đủ'},
+  'B21DCCN007':{items:[{label:'Học phí HK1 2023-2024 (14 tín)',amount:7560000},{label:'Bảo hiểm y tế',amount:810000}],paid:8370000,status:'Đã đủ'},
+  'B21DCCN008':{items:[{label:'Học phí HK1 2023-2024 (14 tín)',amount:7560000},{label:'Bảo hiểm y tế',amount:810000}],paid:0,status:'Chưa đóng'}
+};
+var accounts = [
+  {user:'an.nv',name:'Nguyễn Văn An',role:'Sinh viên',status:'Hoạt động',last:'2024-10-24 08:15'},
+  {user:'binh.tt',name:'Trần Thị Bình',role:'Sinh viên',status:'Hoạt động',last:'2024-10-23 19:42'},
+  {user:'ductm',name:'TS. Trần Minh Đức',role:'Giảng viên',status:'Hoạt động',last:'2024-10-24 07:30'},
+  {user:'namnh',name:'TS. Nguyễn Hoàng Nam',role:'Giảng viên',status:'Hoạt động',last:'2024-10-22 14:10'},
+  {user:'huongnt',name:'Nguyễn Thị Hương',role:'Cán bộ quản lý',status:'Hoạt động',last:'2024-10-24 09:05'},
+  {user:'admin',name:'Admin Hệ thống',role:'Quản trị viên',status:'Hoạt động',last:'2024-10-24 10:00'},
+  {user:'cuong.lv',name:'Lê Văn Cường',role:'Sinh viên',status:'Khóa',last:'2024-09-15 11:20'}
+];
+var logs = [
+  {time:'2024-10-24 10:12:33',user:'huongnt',action:'Cập nhật hồ sơ sinh viên B21DCCN003',ip:'10.1.5.22'},
+  {time:'2024-10-24 09:48:11',user:'ductm',action:'Nhập điểm môn IT3011 lớp CNTT2-01',ip:'10.1.3.15'},
+  {time:'2024-10-24 09:05:02',user:'huongnt',action:'Đăng nhập hệ thống',ip:'10.1.5.22'},
+  {time:'2024-10-24 08:15:47',user:'an.nv',action:'Đăng ký môn IT3032 Mạng máy tính',ip:'172.16.8.104'},
+  {time:'2024-10-24 08:15:09',user:'an.nv',action:'Đăng nhập hệ thống',ip:'172.16.8.104'},
+  {time:'2024-10-23 22:03:51',user:'admin',action:'Sao lưu dữ liệu tự động (OK, 2.4GB)',ip:'127.0.0.1'},
+  {time:'2024-10-23 19:42:18',user:'binh.tt',action:'Xem bảng điểm học kỳ',ip:'172.16.8.210'},
+  {time:'2024-10-23 16:20:05',user:'admin',action:'Khóa tài khoản cuong.lv (vi phạm quy định)',ip:'127.0.0.1'},
+  {time:'2024-10-23 14:10:33',user:'namnh',action:'Tải danh sách sinh viên lớp CNTT1-02',ip:'10.1.3.18'}
+];
+var CRITERIA=[{key:'hocTap',label:'Ý thức học tập',max:20},{key:'hoatDong',label:'Hoạt động tập thể',max:20},{key:'daoDuc',label:'Đạo đức lối sống',max:20},{key:'kyLuat',label:'Kỷ luật nhà trường',max:20},{key:'doanHoi',label:'Phong trào Đoàn - Hội',max:20}];
+var registeredCourses = ['IT3011','IT3020','IT3041'];
+var selectedDrlId = 'B21DCCN001';
+var currentUser = null;
+function $(id){return document.getElementById(id);}
+function sumEv(ev){var s=0,k;for(k in ev){if(ev.hasOwnProperty(k))s+=ev[k];}return s;}
+function finalDRL(s){return Math.round((sumEv(s.classEval)+sumEv(s.facultyEval))/2);}
+function classifyDRL(sc){if(sc>=90)return{label:'Xuất sắc',c:'#297a2e',bg:'rgba(41,122,46,.14)'};if(sc>=80)return{label:'Giỏi',c:'#0d9488',bg:'rgba(13,148,136,.14)'};if(sc>=65)return{label:'Khá',c:'#d97706',bg:'rgba(217,119,6,.14)'};if(sc>=50)return{label:'Trung bình',c:'#7c3aed',bg:'rgba(124,58,237,.12)'};return{label:'Yếu',c:'#dc2626',bg:'rgba(220,38,38,.12)'};}
+function fmtMoney(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')+'đ';}
+function fmtDob(d){var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+function letterGrade(t){if(t>=8.5)return'A';if(t>=7.8)return'B+';if(t>=7)return'B';if(t>=6.3)return'C+';if(t>=5.5)return'C';if(t>=4.8)return'D+';if(t>=4)return'D';return'F';}
+function findStu(id){var i;for(i=0;i<students.length;i++)if(students[i].id===id)return students[i];return null;}
+function card(inner){return '<div class="fade-in rounded-2xl p-5 mb-5" style="background:var(--card);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06);">'+inner+'</div>';}
+function h2(t,sub){return '<h2 style="font-size:17px;font-weight:700;margin:0 0 2px;">'+t+'</h2>'+(sub?'<p style="color:var(--muted);font-size:12px;margin:0 0 14px;">'+sub+'</p>':'<div style="height:14px;"></div>');}
+var state = {role:'sv', mod:'dash'};
+function renderRoleBar(){
+  var html='',k;
+  for(k in ROLES){html+='<button class="role-chip '+(state.role===k?'active':'')+'" data-role="'+k+'" style="padding:7px 14px;border-radius:9px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px;">'+ROLES[k].label+'</button>';}
+  $('role-bar').innerHTML=html;
+  var btns=$('role-bar').querySelectorAll('.role-chip');
+  var i;for(i=0;i<btns.length;i++)(function(b){b.addEventListener('click',function(){state.role=b.getAttribute('data-role');state.mod=ROLES[state.role].modules[0][0];renderAll();});})(btns[i]);
+  var r=ROLES[state.role];var displayName=currentUser?currentUser.name:r.name;
+  $('user-name').textContent=displayName;
+  $('user-role').textContent=(currentUser?currentUser.role:r.label)+' · '+(currentUser?currentUser.user:r.id);
+  $('user-avatar').textContent=displayName.charAt(0);
+}
+function renderModBar(){
+  var mods=ROLES[state.role].modules,html='',i;
+  for(i=0;i<mods.length;i++){html+='<button class="mod-btn '+(state.mod===mods[i][0]?'active':'')+'" data-mod="'+mods[i][0]+'" style="flex:1;min-width:100px;padding:9px 6px;border-radius:8px;font-size:12.5px;font-weight:600;border:none;background:transparent;white-space:nowrap;">'+mods[i][1]+'</button>';}
+  $('mod-bar').innerHTML=html;
+  var btns=$('mod-bar').querySelectorAll('.mod-btn');
+  for(i=0;i<btns.length;i++)(function(b){b.addEventListener('click',function(){state.mod=b.getAttribute('data-mod');renderMain();});})(btns[i]);
+}
+function metric(label,val,sub,color){return '<div class="metric-card rounded-2xl p-4" style="flex:1 1 140px;background:var(--card);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06);border-top:3px solid '+(color||'var(--accent)')+';"><div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:4px;">'+label+'</div><div style="font-size:24px;font-weight:800;line-height:1.1;">'+val+'</div>'+(sub?'<div style="color:var(--muted);font-size:11px;margin-top:3px;">'+sub+'</div>':'')+'</div>';}
+var M={};
+M.dash=function(){
+  var role=state.role;
+  if(role==='sv'){
+    var me=findStu('B21DCCN001');var fs=finalDRL(me);var cl=classifyDRL(fs);var t=tuition['B21DCCN001'];
+    var g=grades['B21DCCN001'];var sum=0,cnt=0,k;for(k in g){if(g.hasOwnProperty(k)){sum+=(g[k].qt*0.3+g[k].ck*0.7);cnt++;}}
+    var gpa=cnt?(sum/cnt).toFixed(2):'—';
+    var html='<div class="flex flex-wrap gap-3 mb-5">'+metric('Tích lũy tín chỉ','62 / 130','Tiến độ 47.7%','var(--accent)')+metric('GPA hiện tại',gpa,'Hệ 4','#0d9488')+metric('Điểm rèn luyện',fs,cl.label,cl.c)+metric('Học phí',t.status,fmtMoney(t.paid)+' đã đóng','#d97706')+'</div>';
+    html+=card(h2('Thông báo &amp; Lịch trình','Các thông báo mới từ Khoa và Phòng Đào tạo')+'<div style="display:flex;flex-direction:column;gap:10px;">'
+      +'<div style="padding:12px 14px;border-radius:10px;background:var(--accent-soft);border-left:3px solid var(--accent);"><strong style="font-size:14px;">Đăng ký môn học HK2 2023-2024</strong><div style="font-size:12px;color:var(--muted);margin-top:2px;">Thời gian: 28/10 - 03/11/2024 · Đăng ký online qua hệ thống</div></div>'
+      +'<div style="padding:12px 14px;border-radius:10px;background:var(--accent2-soft);border-left:3px solid var(--accent2);"><strong style="font-size:14px;">Nộp học phí kỳ 1</strong><div style="font-size:12px;color:var(--muted);margin-top:2px;">Hạn nộp: 15/11/2024 · Còn thiếu: '+fmtMoney(10170000-t.paid)+'</div></div>'
+      +'<div style="padding:12px 14px;border-radius:10px;background:rgba(13,148,136,.1);border-left:3px solid #0d9488;"><strong style="font-size:14px;">Thi cuối kỳ HK1</strong><div style="font-size:12px;color:var(--muted);margin-top:2px;">Dự kiến: 08/12 - 20/12/2024</div></div></div>');
+    return html;
+  }
+  if(role==='gv'){
+    var html='<div class="flex flex-wrap gap-3 mb-5">'+metric('Môn học phân công','3','Học kỳ 1 2023-2024','var(--accent)')+metric('Tổng sinh viên','172','3 lớp học phần','#0d9488')+metric('Đã nhập điểm','2/3 môn','Còn IT3041 chưa nhập','#d97706')+'</div>';
+    html+=card(h2('Các lớp học phần phụ trách')+tableHTML(['Mã môn','Tên môn','Lớp','Sĩ số','Trạng thái điểm'],[
+      ['IT3011','Lập trình hướng đối tượng','CNTT2-01','62','<span class="badge" style="background:rgba(13,148,136,.14);color:#0d9488;">Đã nhập</span>'],
+      ['IT3041','Kỹ thuật phần mềm','CNTT3-01','55','<span class="badge" style="background:rgba(217,119,6,.14);color:#d97706;">Chưa nhập</span>'],
+      ['IT3011','Lập trình hướng đối tượng','CNTT1-02','55','<span class="badge" style="background:rgba(13,148,136,.14);color:#0d9488;">Đã nhập</span>']]));
+    return html;
+  }
+  if(role==='cb'){
+    var n=students.length,total=0,good=0,weak=0,i;
+    for(i=0;i<n;i++){var fs2=finalDRL(students[i]);total+=fs2;if(fs2>=80)good++;if(fs2<65)weak++;}
+    var html='<div class="flex flex-wrap gap-3 mb-5">'+metric('Tổng sinh viên',n,'Khoa CNTT, K66','var(--accent)')+metric('ĐRL trung bình',(total/n).toFixed(1),'Thang 100','#0d9488')+metric('XS &amp; Giỏi',good,Math.round(good/n*100)+'% SV','#297a2e')+metric('Cần cải thiện',weak,'Điểm < 65','#dc2626')+'</div>';
+    html+='<div class="rounded-2xl p-5 mb-5" style="background:var(--card);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06);">'+h2('Phân bố xếp loại ĐRL','Điểm cuối = trung bình(điểm lớp, điểm khoa)')+'<div id="chart-main" style="height:290px;width:100%;"></div></div>';
+    setTimeout(function(){initChart('chart-main',0);},120);
+    return html;
+  }
+  var active=0,locked=0,i;for(i=0;i<accounts.length;i++){if(accounts[i].status==='Hoạt động')active++;else locked++;}
+  var html='<div class="flex flex-wrap gap-3 mb-5">'+metric('Tài khoản hoạt động',active,'Tổng '+(active+locked),'var(--accent)')+metric('Tài khoản khóa',locked,'Vi phạm / chưa kích hoạt','#dc2626')+metric('Lượt truy cập hôm nay','248','Tăng 12% so với hôm qua','#0d9488')+metric('Backup gần nhất','22:03','23/10/2024 · 2.4GB','#d97706')+'</div>';
+  html+=card(h2('Hoạt động gần nhất')+logTable(logs.slice(0,5)));
+  return html;
+};
+M.profile=function(){
+  var me=findStu('B21DCCN001');
+  var rows=[['Mã sinh viên',me.id],['Họ và tên',me.name],['Ngày sinh',fmtDob(me.dob)],['Giới tính',me.gender],['Địa chỉ',me.address],['Email',me.email],['Số điện thoại',me.phone],['Lớp',me.className],['Khoa',me.faculty],['Ngành đào tạo',me.course],['Năm nhập học',me.year],['Trạng thái',me.status]];
+  var html='<div class="flex flex-wrap gap-4 mb-5" style="align-items:stretch;">'
+    +'<div class="rounded-2xl p-6" style="background:linear-gradient(135deg,#1e5aa8,#1d5c21);color:#fff;flex:1 1 200px;min-width:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">'
+    +'<div style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;margin-bottom:10px;">'+me.name.charAt(0)+'</div>'
+    +'<div style="font-size:18px;font-weight:800;">'+me.name+'</div><div style="font-size:12px;opacity:.85;margin-top:2px;">'+me.id+'</div>'
+    +'<span class="badge" style="background:rgba(255,255,255,.25);color:#fff;margin-top:8px;">'+me.status+'</span></div>'
+    +'<div style="flex:2 1 300px;min-width:240px;" class="rounded-2xl p-5" style="background:var(--card);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06);">'
+    +h2('Thông tin cá nhân','Liên hệ Phòng Đào tạo để chỉnh sửa thông tin chính thức')
+    +'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px 18px;">';
+  var i;for(i=0;i<rows.length;i++){html+='<div style="padding:7px 0;border-bottom:1px solid var(--border);"><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;">'+rows[i][0]+'</div><div style="font-size:13.5px;font-weight:600;margin-top:2px;">'+rows[i][1]+'</div></div>';}
+  html+='</div></div></div>';return html;
+};
+M.reg=function(){
+  var html=card(h2('Danh sách môn học mở — HK1 2023-2024','Chọn môn muốn đăng ký, hệ thống tự tính số tín chỉ và học phí')
+    +'<div style="overflow-x:auto;"><table class="w-full text-sm" style="min-width:620px;border-collapse:collapse;"><thead><tr style="color:var(--muted);border-bottom:1px solid var(--border);background:rgba(41,122,46,.04);" class="text-xs uppercase"><th class="text-left py-2.5 px-3 font-semibold">Chọn</th><th class="text-left py-2.5 px-3 font-semibold">Mã môn</th><th class="text-left py-2.5 px-3 font-semibold">Tên môn</th><th class="text-left py-2.5 px-3 font-semibold">Tín</th><th class="text-left py-2.5 px-3 font-semibold">Giảng viên</th><th class="text-left py-2.5 px-3 font-semibold">Còn trống</th><th class="text-left py-2.5 px-3 font-semibold">Học phí</th></tr></thead><tbody id="reg-tbody"></tbody></table></div>'
+    +'<div style="margin-top:14px;padding:14px;border-radius:10px;background:var(--accent-soft);display:flex;gap:18px;flex-wrap:wrap;align-items:center;">'
+    +'<div><div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;">Tín chỉ đã chọn</div><div id="reg-credits" style="font-size:20px;font-weight:800;">0</div></div>'
+    +'<div><div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;">Học phí dự kiến</div><div id="reg-fee" style="font-size:20px;font-weight:800;color:var(--accent2);">0đ</div></div>'
+    +'<button id="reg-submit" style="margin-left:auto;padding:9px 20px;border-radius:9px;background:var(--accent);color:#fff;font-weight:700;border:none;cursor:pointer;font-family:inherit;font-size:13px;box-shadow:0 4px 12px rgba(41,122,46,.3);">Xác nhận đăng ký</button></div>'
+    +'<div id="reg-msg" style="margin-top:10px;font-size:13px;color:var(--accent);font-weight:600;min-height:18px;"></div>');
+  setTimeout(function(){
+    var tb=$('reg-tbody');if(!tb)return;var h='',i;
+    for(i=0;i<courses.length;i++){var c=courses[i];var checked=registeredCourses.indexOf(c.id)>=0;var full=c.registered>=c.capacity;var disabled=(!c.open||full)?'disabled':'';
+      h+='<tr class="tbl-row" style="border-bottom:1px solid var(--border);"><td class="py-3 px-3"><input type="checkbox" class="reg-chk" data-id="'+c.id+'" '+(checked?'checked':'')+' '+disabled+' style="width:15px;height:15px;accent-color:var(--accent);cursor:pointer;"></td>'
+      +'<td class="py-3 px-3 font-semibold" style="color:var(--accent);">'+c.id+'</td><td class="py-3 px-3 font-medium" style="font-size:13px;">'+c.name+(full?' <span class="badge" style="background:rgba(220,38,38,.12);color:#dc2626;">Hết chỗ</span>':'')+(!c.open?' <span class="badge" style="background:rgba(100,116,139,.15);color:var(--muted);">Đóng</span>':'')+'</td>'
+      +'<td class="py-3 px-3" style="font-variant-numeric:tabular-nums;">'+c.credits+'</td><td class="py-3 px-3" style="color:var(--muted);font-size:12px;">'+c.lecturer+'</td>'
+      +'<td class="py-3 px-3" style="font-variant-numeric:tabular-nums;font-size:12px;">'+(c.capacity-c.registered)+'/'+c.capacity+'</td>'
+      +'<td class="py-3 px-3" style="font-variant-numeric:tabular-nums;font-size:12px;">'+fmtMoney(c.fee)+'</td></tr>';}
+    tb.innerHTML=h;
+    function upd(){var chks=tb.querySelectorAll('.reg-chk:checked');var cr=0,fee=0,i;for(i=0;i<chks.length;i++){var c=courses.find(function(x){return x.id===chks[i].getAttribute('data-id');});cr+=c.credits;fee+=c.fee;}$('reg-credits').textContent=cr;$('reg-fee').textContent=fmtMoney(fee);}
+    var chks=tb.querySelectorAll('.reg-chk');for(i=0;i<chks.length;i++)chks[i].addEventListener('change',upd);
+    upd();
+    $('reg-submit').addEventListener('click',function(){
+      var chks2=tb.querySelectorAll('.reg-chk:checked');var ids=[];var j;for(j=0;j<chks2.length;j++)ids.push(chks2[j].getAttribute('data-id'));
+      registeredCourses=ids;$('reg-msg').textContent='Đã ghi nhận đăng ký '+ids.length+' môn ('+$('reg-credits').textContent+' tín chỉ). Mã đăng ký: DK'+Date.now().toString().slice(-6);
+      setTimeout(function(){$('reg-msg').textContent='';},5000);});
+  },50);
+  return html;
+};
+M.grades=function(){
+  var g=grades['B21DCCN001'];var rows=[],sum=0,cnt=0,totalCredits=0,k;
+  for(k in g){if(g.hasOwnProperty(k)){var c=courses.find(function(x){return x.id===k;});var t=Math.round((g[k].qt*0.3+g[k].ck*0.7)*10)/10;var lg=letterGrade(t);sum+=t*c.credits;totalCredits+=c.credits;cnt++;rows.push([c.id,c.name,c.credits,g[k].qt,g[k].ck,t,'<strong style="color:'+(t>=5?'var(--accent)':'#dc2626')+'">'+lg+'</strong>']);}}
+  var gpa=totalCredits?(sum/totalCredits).toFixed(2):'—';
+  var html='<div class="flex flex-wrap gap-3 mb-5">'+metric('Số môn học',''+cnt,'Học kỳ 1 2023-2024','var(--accent)')+metric('Tổng tín chỉ',''+totalCredits,'Đã tham gia học','#0d9488')+metric('Điểm TB học kỳ',gpa,'Hệ 10','#d97706')+metric('Xếp loại học tập',gpa>=8?'Giỏi':gpa>=6.5?'Khá':gpa>=5?'Trung bình':'Yếu','Dựa trên điểm TB','#297a2e')+'</div>';
+  html+=card(h2('Bảng điểm chi tiết','Điểm thành phần = 30% QT + 70% CK')+tableHTML(['Mã môn','Tên môn','Tín','Điểm QT','Điểm CK','Tổng kết','Điểm chữ'],rows));
+  return html;
+};
+M.tuition=function(){
+  var t=tuition['B21DCCN001'];var total=0,i;for(i=0;i<t.items.length;i++)total+=t.items[i].amount;var remain=total-t.paid;var pct=Math.round(t.paid/total*100);
+  var sc=t.status==='Đã đủ'?'#297a2e':t.status==='Chưa đóng'?'#dc2626':'#d97706';
+  var rows=[];for(i=0;i<t.items.length;i++)rows.push([t.items[i].label,fmtMoney(t.items[i].amount),'Học kỳ 1 2023-2024']);
+  rows.push(['<strong>Tổng cộng phải đóng</strong>','<strong style="color:var(--accent);">'+fmtMoney(total)+'</strong>','']);
+  rows.push(['<strong>Đã đóng</strong>','<strong style="color:#0d9488;">'+fmtMoney(t.paid)+'</strong>','']);
+  rows.push(['<strong>Còn thiếu</strong>','<strong style="color:#dc2626;">'+fmtMoney(Math.max(0,remain))+'</strong>','']);
+  var html='<div class="flex flex-wrap gap-3 mb-5">'+metric('Tổng học phí',fmtMoney(total),'HK1 2023-2024','var(--accent)')+metric('Đã đóng',fmtMoney(t.paid),pct+'%','#0d9488')+metric('Còn thiếu',fmtMoney(Math.max(0,remain)),'Hạn: 15/11/2024','#dc2626')+metric('Trạng thái',t.status,'',sc)+'</div>';
+  html+=card('<div style="height:12px;border-radius:6px;background:rgba(15,23,42,.08);overflow:hidden;margin-bottom:16px;"><div style="height:100%;width:'+pct+'%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .5s;"></div></div>'+h2('Chi tiết các khoản thu')+tableHTML(['Khoản mục','Số tiền','Ghi chú'],rows));
+  return html;
+};
+M.drl=function(){var me=findStu('B21DCCN001');return drlPanel(me,false);};
+M.courses=function(){
+  var rows=[['IT3011','Lập trình hướng đối tượng','CNTT2-01','Thứ 2 (6-9)','Phòng A205','62','<span class="badge" style="background:rgba(13,148,136,.14);color:#0d9488;">Đang mở</span>'],
+    ['IT3041','Kỹ thuật phần mềm','CNTT3-01','Thứ 4 (12-15)','Phòng A310','55','<span class="badge" style="background:rgba(13,148,136,.14);color:#0d9488;">Đang mở</span>'],
+    ['IT3011','Lập trình hướng đối tượng','CNTT1-02','Thứ 6 (6-9)','Phòng A205','55','<span class="badge" style="background:rgba(13,148,136,.14);color:#0d9488;">Đang mở</span>']];
+  return card(h2('Môn học được phân công — HK1 2023-2024','Chuyển sang tab "Nhập điểm" để nhập điểm cho từng môn')+tableHTML(['Mã môn','Tên môn','Lớp','Thời khóa biểu','Phòng','Sĩ số','Trạng thái'],rows));
+};
+M.gradeEntry=function(){
+  var html=card(h2('Nhập điểm sinh viên','Chọn môn học, nhập điểm quá trình (QT) và cuối kỳ (CK) — hệ thống tự tính tổng kết')
+    +'<div style="margin-bottom:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;"><label style="font-size:12px;font-weight:600;color:var(--muted);">Chọn môn học:</label>'
+    +'<select id="ge-course" style="padding:8px 12px;border-radius:8px;border:1px solid var(--border);font-size:13px;background:#fff;"><option value="IT3011">IT3011 — Lập trình HĐT (CNTT2-01)</option><option value="IT3041">IT3041 — Kỹ thuật phần mềm (CNTT3-01)</option></select>'
+    +'<button id="ge-save" style="padding:8px 16px;border-radius:8px;background:var(--accent);color:#fff;font-weight:700;border:none;cursor:pointer;font-family:inherit;font-size:12px;">Lưu điểm</button>'
+    +'<span id="ge-msg" style="font-size:12px;color:var(--accent);font-weight:600;"></span></div>'
+    +'<div style="overflow-x:auto;"><table class="w-full text-sm" style="min-width:580px;border-collapse:collapse;"><thead><tr style="color:var(--muted);border-bottom:1px solid var(--border);background:rgba(41,122,46,.04);" class="text-xs uppercase"><th class="text-left py-2.5 px-3 font-semibold">Mã SV</th><th class="text-left py-2.5 px-3 font-semibold">Họ tên</th><th class="text-center py-2.5 px-3 font-semibold">QT (30%)</th><th class="text-center py-2.5 px-3 font-semibold">CK (70%)</th><th class="text-center py-2.5 px-3 font-semibold">Tổng kết</th><th class="text-center py-2.5 px-3 font-semibold">Kết quả</th></tr></thead><tbody id="ge-tbody"></tbody></table></div>');
+  setTimeout(function(){renderGradeEntry();},50);
+  return html;
+};
+function renderGradeEntry(){
+  var sel=$('ge-course');if(!sel)return;var cid=sel.value;var tb=$('ge-tbody');if(!tb)return;
+  var h='',i;
+  for(i=0;i<students.length;i++){var s=students[i];var g=grades[s.id];var d=g[cid]||{qt:0,ck:0};var t=Math.round((d.qt*0.3+d.ck*0.7)*10)/10;var pass=t>=5;
+    h+='<tr class="tbl-row" style="border-bottom:1px solid var(--border);"><td class="py-2.5 px-3 font-semibold" style="color:var(--accent);font-variant-numeric:tabular-nums;font-size:12px;">'+s.id+'</td><td class="py-2.5 px-3 font-medium" style="font-size:13px;">'+s.name+'</td>'
+    +'<td class="py-2.5 px-3 text-center"><input type="number" min="0" max="10" step="0.1" class="grade-input ge-qt" data-sid="'+s.id+'" value="'+d.qt+'"></td>'
+    +'<td class="py-2.5 px-3 text-center"><input type="number" min="0" max="10" step="0.1" class="grade-input ge-ck" data-sid="'+s.id+'" value="'+d.ck+'"></td>'
+    +'<td class="py-2.5 px-3 text-center ge-total" style="font-weight:800;font-variant-numeric:tabular-nums;">'+t+'</td>'
+    +'<td class="py-2.5 px-3 text-center"><span class="badge" style="background:'+(pass?'rgba(41,122,46,.14)':'rgba(220,38,38,.12)')+';color:'+(pass?'#297a2e':'#dc2626')+';">'+(pass?'Đạt':'Rớt')+'</span></td></tr>';}
+  tb.innerHTML=h;
+  function recalc(){var rows2=tb.querySelectorAll('tr');var r;for(r=0;r<rows2.length;r++){var qt=parseFloat(rows2[r].querySelector('.ge-qt').value)||0;var ck=parseFloat(rows2[r].querySelector('.ge-ck').value)||0;var tt=Math.round((qt*0.3+ck*0.7)*10)/10;var tot=rows2[r].querySelector('.ge-total');if(tot)tot.textContent=tt;var badge=rows2[r].querySelector('.badge');if(badge){badge.textContent=tt>=5?'Đạt':'Rớt';badge.style.background=tt>=5?'rgba(41,122,46,.14)':'rgba(220,38,38,.12)';badge.style.color=tt>=5?'#297a2e':'#dc2626';}}}
+  var inputs=tb.querySelectorAll('.grade-input');for(i=0;i<inputs.length;i++)inputs[i].addEventListener('input',recalc);
+  $('ge-save').addEventListener('click',function(){
+    var rows3=tb.querySelectorAll('tr');var r2;for(r2=0;r2<rows3.length;r2++){var sid=rows3[r2].querySelector('.ge-qt').getAttribute('data-sid');var qt2=parseFloat(rows3[r2].querySelector('.ge-qt').value)||0;var ck2=parseFloat(rows3[r2].querySelector('.ge-ck').value)||0;if(!grades[sid])grades[sid]={};grades[sid][cid]={qt:qt2,ck:ck2};}
+    $('ge-msg').textContent='Đã lưu điểm môn '+cid+' cho '+rows3.length+' sinh viên.';setTimeout(function(){$('ge-msg').textContent='';},4000);});
+  sel.addEventListener('change',renderGradeEntry);
+}
+M.svMgmt=function(){
+  var html='<div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">'
+    +'<div style="position:relative;flex:1;min-width:180px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
+    +'<input id="sv-search" type="text" placeholder="Tìm theo mã, tên, lớp..." style="width:100%;padding:9px 12px 9px 34px;border-radius:9px;border:1px solid var(--border);font-size:13px;box-sizing:border-box;"></div>'
+    +'<button id="sv-add" style="padding:9px 16px;border-radius:9px;background:var(--accent);color:#fff;font-weight:700;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;">+ Thêm sinh viên</button></div>';
+  html+=card('<div style="overflow-x:auto;"><table class="w-full text-sm" style="min-width:700px;border-collapse:collapse;"><thead><tr style="color:var(--muted);border-bottom:1px solid var(--border);background:rgba(41,122,46,.04);" class="text-xs uppercase"><th class="text-left py-2.5 px-3 font-semibold">Mã SV</th><th class="text-left py-2.5 px-3 font-semibold">Họ tên</th><th class="text-left py-2.5 px-3 font-semibold">Lớp</th><th class="text-left py-2.5 px-3 font-semibold">Ngành</th><th class="text-left py-2.5 px-3 font-semibold">Email</th><th class="text-left py-2.5 px-3 font-semibold">ĐRL</th><th class="text-center py-2.5 px-3 font-semibold">Hành động</th></tr></thead><tbody id="sv-tbody"></tbody></table></div><div id="sv-empty" style="display:none;padding:28px;text-align:center;color:var(--muted);font-size:13px;">Không tìm thấy.</div>');
+  setTimeout(function(){renderSvTable();$('sv-search').addEventListener('input',renderSvTable);$('sv-add').addEventListener('click',function(){openSvModal(null);});},50);
+  return html;
+};
+function renderSvTable(){
+  var q=($('sv-search')?$('sv-search').value:'').toLowerCase().trim();
+  var f=[],i;for(i=0;i<students.length;i++){var s=students[i];if(!q||s.name.toLowerCase().indexOf(q)>=0||s.id.toLowerCase().indexOf(q)>=0||s.className.toLowerCase().indexOf(q)>=0)f.push(s);}
+  var h='';for(i=0;i<f.length;i++){var s2=f[i];var fs=finalDRL(s2);var cl=classifyDRL(fs);
+    h+='<tr class="tbl-row" style="border-bottom:1px solid var(--border);"><td class="py-2.5 px-3 font-semibold" style="color:var(--accent);font-variant-numeric:tabular-nums;font-size:12px;">'+s2.id+'</td><td class="py-2.5 px-3 font-medium" style="font-size:13px;">'+s2.name+'</td><td class="py-2.5 px-3" style="font-size:13px;">'+s2.className+'</td><td class="py-2.5 px-3" style="font-size:12px;color:var(--muted);">'+s2.course+'</td><td class="py-2.5 px-3" style="font-size:11px;color:var(--muted);">'+s2.email+'</td><td class="py-2.5 px-3"><span class="badge" style="background:'+cl.bg+';color:'+cl.c+';">'+fs+' · '+cl.label+'</span></td>'
+    +'<td class="py-2.5 px-3 text-center" style="white-space:nowrap;"><button data-edit="'+s2.id+'" class="sv-edit" style="background:none;border:none;cursor:pointer;color:var(--accent);padding:3px 5px;vertical-align:middle;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>'
+    +'<button data-del="'+s2.id+'" class="sv-del" style="background:none;border:none;cursor:pointer;color:#dc2626;padding:3px 5px;vertical-align:middle;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></td></tr>';}
+  var tb=$('sv-tbody');if(tb){tb.innerHTML=h;
+    var eb=tb.querySelectorAll('.sv-edit');var j;for(j=0;j<eb.length;j++)(function(b){b.addEventListener('click',function(){openSvModal(b.getAttribute('data-edit'));});})(eb[j]);
+    var db=tb.querySelectorAll('.sv-del');for(j=0;j<db.length;j++)(function(b){b.addEventListener('click',function(){if(b.getAttribute('data-cf')==='1'){students=students.filter(function(x){return x.id!==b.getAttribute('data-del');});renderSvTable();}else{b.setAttribute('data-cf','1');b.innerHTML='<span style="font-size:10px;font-weight:700;">Xác nhận?</span>';setTimeout(function(){b.setAttribute('data-cf','0');b.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';},3000);}});})(db[j]);
+  }
+  if($('sv-empty'))$('sv-empty').style.display=f.length===0?'block':'none';
+}
+function openSvModal(id){
+  var s=id?findStu(id):null;
+  var h='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;"><h3 style="font-size:16px;font-weight:700;margin:0;">'+(s?'Sửa hồ sơ sinh viên':'Thêm sinh viên mới')+'</h3><button id="m-close" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">'
+    +fld('Mã SV','m-id',s?s.id:'')+fld('Họ tên','m-name',s?s.name:'')
+    +fld('Ngày sinh','m-dob',s?s.dob:'2003-01-01','date')+fld('Lớp','m-class',s?s.className:'CNTT2-01')
+    +fld('Email','m-email',s?s.email:'')+fld('SĐT','m-phone',s?s.phone:'')
+    +'</div><div id="m-err" style="color:#dc2626;font-size:12px;font-weight:600;margin-top:8px;min-height:16px;"></div>'
+    +'<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;"><button id="m-cancel" style="padding:8px 16px;border-radius:8px;background:var(--card);border:1px solid var(--border);color:var(--muted);font-weight:600;cursor:pointer;font-family:inherit;font-size:12.5px;">Hủy</button>'
+    +'<button id="m-save" style="padding:8px 18px;border-radius:8px;background:var(--accent);color:#fff;font-weight:700;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;">Lưu</button></div>';
+  $('modal-box').innerHTML=h;$('modal').style.display='flex';
+  $('m-close').addEventListener('click',closeModal);$('m-cancel').addEventListener('click',closeModal);
+  $('m-save').addEventListener('click',function(){
+    var nid=$('m-id').value.trim();if(!nid){$('m-err').textContent='Vui lòng nhập mã sinh viên!';return;}
+    var dup=students.some(function(x){return x.id===nid&&x.id!==id;});if(dup){$('m-err').textContent='Mã sinh viên đã tồn tại!';return;}
+    var data={id:nid,name:$('m-name').value.trim(),dob:$('m-dob').value,gender:'Nam',address:'Hải Phòng',email:$('m-email').value.trim(),phone:$('m-phone').value.trim(),className:$('m-class').value.trim(),faculty:'Công nghệ thông tin',course:'Kỹ thuật phần mềm',year:2021,status:'Đang học',classEval:{hocTap:15,hoatDong:14,daoDuc:16,kyLuat:16,doanHoi:13},facultyEval:{hocTap:15,hoatDong:14,daoDuc:16,kyLuat:16,doanHoi:13}};
+    if(s){var idx=students.findIndex(function(x){return x.id===id;});if(idx>=0){data.classEval=students[idx].classEval;data.facultyEval=students[idx].facultyEval;students[idx]=data;}}else students.push(data);
+    closeModal();renderSvTable();
+  });
+}
+function fld(lbl,id,val,type){return '<div><label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">'+lbl+'</label><input id="'+id+'" type="'+(type||'text')+'" value="'+val+'" style="width:100%;padding:8px 10px;border-radius:7px;border:1px solid var(--border);font-size:13px;box-sizing:border-box;"></div>';}
+function closeModal(){$('modal').style.display='none';}
+$('modal').addEventListener('click',function(e){if(e.target===$('modal'))closeModal();});
+M.drlMgmt=function(){
+  var html='<div class="flex flex-col lg:flex-row gap-4">'
+    +'<div style="flex:0 0 220px;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;max-height:500px;overflow-y:auto;"><div style="padding:11px 13px;background:var(--accent-soft);font-weight:700;font-size:12.5px;color:var(--accent);position:sticky;top:0;">Chọn sinh viên</div><div id="drl-list"></div></div>'
+    +'<div style="flex:1;min-width:0;" id="drl-panel-wrap"></div></div>';
+  setTimeout(function(){renderDrlMgmt();},50);
+  return html;
+};
+function renderDrlMgmt(){
+  var list=$('drl-list');if(!list)return;var h='',i;
+  for(i=0;i<students.length;i++){var s=students[i];var fs=finalDRL(s);var cl=classifyDRL(fs);
+    h+='<div class="stu-item'+(s.id===selectedDrlId?' active':'')+'" data-sid="'+s.id+'" style="padding:8px 11px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;cursor:pointer;transition:all .15s;">'
+    +'<div style="width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0;">'+s.name.charAt(0)+'</div>'
+    +'<div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+s.name+'</div><div style="font-size:10px;color:var(--muted);">'+s.id+'</div></div>'
+    +'<span style="font-weight:800;font-size:12px;color:'+cl.c+';font-variant-numeric:tabular-nums;flex-shrink:0;">'+fs+'</span></div>';}
+  list.innerHTML=h;
+  var items=list.querySelectorAll('.stu-item');for(i=0;i<items.length;i++)(function(el){el.addEventListener('click',function(){selectedDrlId=el.getAttribute('data-sid');renderDrlMgmt();});})(items[i]);
+  var s=findStu(selectedDrlId);var wrap=$('drl-panel-wrap');if(!wrap)return;
+  wrap.innerHTML=drlPanel(s,true);
+  bindDrlSliders();
+}
+function drlPanel(s,editable){
+  if(!s)return '<div style="padding:20px;color:var(--muted);">Chưa chọn sinh viên.</div>';
+  var ct=sumEv(s.classEval),ft=sumEv(s.facultyEval),fs=Math.round((ct+ft)/2),cl=classifyDRL(fs);
+  function critRows(ev,prefix){var h='',c;for(c=0;c<CRITERIA.length;c++){var C=CRITERIA[c],v=ev[C.key];
+    h+='<div style="margin-bottom:9px;"><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px;"><span style="font-weight:500;">'+C.label+'</span><span id="'+prefix+'-'+C.key+'-v" style="font-weight:700;font-variant-numeric:tabular-nums;">'+v+'/20</span></div>'
+    +(editable?'<input type="range" min="0" max="20" value="'+v+'" data-key="'+C.key+'" data-prefix="'+prefix+'" class="drl-sl'+(prefix==='fac'?' fac':'')+'" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;background:rgba(15,23,42,.1);outline:none;cursor:pointer;">':'<div style="height:5px;border-radius:3px;background:rgba(15,23,42,.08);overflow:hidden;"><div style="height:100%;width:'+(v/20*100)+'%;border-radius:3px;background:'+(prefix==='cls'?'var(--accent)':'var(--accent2)')+';"></div></div>')
+    +'</div>';}return h;}
+  var html='<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;">'
+    +'<div style="display:flex;align-items:center;gap:10px;padding-bottom:11px;border-bottom:1px solid var(--border);margin-bottom:13px;flex-wrap:wrap;">'
+    +'<div style="width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;">'+s.name.charAt(0)+'</div>'
+    +'<div style="flex:1;min-width:130px;"><div style="font-weight:700;font-size:14px;">'+s.name+'</div><div style="font-size:10.5px;color:var(--muted);">'+s.id+' · '+s.className+' · '+s.course+'</div></div>'
+    +'<span class="badge" style="background:'+cl.bg+';color:'+cl.c+';border:1px solid '+cl.c+';font-size:11px;padding:4px 10px;">'+cl.label+' · '+fs+'đ</span></div>'
+    +'<div class="flex flex-col md:flex-row gap-4">'
+    +'<div style="flex:1;padding:12px;border-radius:10px;border:1px solid var(--border);background:rgba(41,122,46,.03);"><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><span style="font-weight:700;font-size:12.5px;color:var(--accent);">Đánh giá tại Lớp</span><span id="cls-total" style="font-weight:800;font-size:17px;color:var(--accent);font-variant-numeric:tabular-nums;">'+ct+'</span></div>'+critRows(s.classEval,'cls')+'</div>'
+    +'<div style="flex:1;padding:12px;border-radius:10px;border:1px solid var(--border);background:rgba(217,119,6,.04);"><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><span style="font-weight:700;font-size:12.5px;color:var(--accent2);">Đánh giá tại Khoa</span><span id="fac-total" style="font-weight:800;font-size:17px;color:var(--accent2);font-variant-numeric:tabular-nums;">'+ft+'</span></div>'+critRows(s.facultyEval,'fac')+'</div></div>'
+    +'<div style="margin-top:13px;padding:12px;border-radius:10px;background:linear-gradient(100deg,var(--accent-soft),var(--accent2-soft));display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+    +'<div style="flex:1;min-width:140px;"><div style="font-size:10.5px;color:var(--muted);font-weight:600;text-transform:uppercase;">Điểm rèn luyện cuối cùng</div><div id="drl-final-score" style="font-size:26px;font-weight:800;line-height:1.1;">'+fs+'</div><div id="drl-final-cl" style="font-size:12px;font-weight:700;color:'+cl.c+';">Xếp loại: '+cl.label+'</div></div>'
+    +'<div style="flex:1;min-width:140px;"><div style="height:8px;border-radius:4px;background:rgba(15,23,42,.08);overflow:hidden;margin-bottom:5px;"><div id="drl-final-bar" style="height:100%;width:'+fs+'%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s;"></div></div><div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);"><span>0</span><span>50</span><span>65</span><span>80</span><span>90</span><span>100</span></div></div>'
+    +(editable?'<button id="drl-save" style="padding:9px 18px;border-radius:9px;background:var(--accent);color:#fff;font-weight:700;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;">Lưu điểm</button>':'')
+    +'</div><div id="drl-msg" style="margin-top:7px;font-size:11.5px;color:var(--accent);font-weight:600;min-height:15px;"></div></div>';
+  return html;
+}
+function bindDrlSliders(){
+  var sl=document.querySelectorAll('.drl-sl');var i;
+  for(i=0;i<sl.length;i++)(function(slider){slider.addEventListener('input',function(){
+    var key=slider.getAttribute('data-key'),prefix=slider.getAttribute('data-prefix'),val=parseInt(slider.value,10);
+    var vel=$((prefix==='cls'?'cls':'fac')+'-'+key+'-v');if(vel)vel.textContent=val+'/20';
+    var st=findStu(selectedDrlId);if(st){if(prefix==='cls')st.classEval[key]=val;else st.facultyEval[key]=val;}
+    updateDrlDisplay();
+  });})(sl[i]);
+  var sb=$('drl-save');if(sb)sb.addEventListener('click',function(){var st=findStu(selectedDrlId);if(!st)return;var fs=finalDRL(st);var cl=classifyDRL(fs);$('drl-msg').textContent='Đã lưu điểm cho '+st.name+' — '+fs+'đ ('+cl.label+')';renderDrlMgmt();setTimeout(function(){var m=$('drl-msg');if(m)m.textContent='';},4000);});
+}
+function updateDrlDisplay(){
+  var st=findStu(selectedDrlId);if(!st)return;
+  var ct=sumEv(st.classEval),ft=sumEv(st.facultyEval),fs=Math.round((ct+ft)/2),cl=classifyDRL(fs);
+  if($('cls-total'))$('cls-total').textContent=ct;
+  if($('fac-total'))$('fac-total').textContent=ft;
+  if($('drl-final-score'))$('drl-final-score').textContent=fs;
+  if($('drl-final-cl')){$('drl-final-cl').textContent='Xếp loại: '+cl.label;$('drl-final-cl').style.color=cl.c;}
+  if($('drl-final-bar'))$('drl-final-bar').style.width=fs+'%';
+}
+M.reports=function(){
+  var html='<div class="rounded-2xl p-5 mb-5" style="background:var(--card);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06);">'+h2('Thống kê điểm rèn luyện theo xếp loại','Khoa Công nghệ thông tin — K66')+'<div id="chart-rep1" style="height:280px;width:100%;"></div></div>';
+  html+='<div class="rounded-2xl p-5 mb-5" style="background:var(--card);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06);">'+h2('Tình trạng học phí','Số sinh viên theo trạng thái nộp học phí')+'<div id="chart-rep2" style="height:260px;width:100%;"></div></div>';
+  var rows=[];var byClass={};var i;for(i=0;i<students.length;i++){var c=students[i].className;if(!byClass[c])byClass[c]={n:0,sum:0};byClass[c].n++;byClass[c].sum+=finalDRL(students[i]);}
+  for(var k in byClass){if(byClass.hasOwnProperty(k))rows.push([k,byClass[k].n+' SV',(byClass[k].sum/byClass[k].n).toFixed(1)]);}
+  html+=card(h2('Báo cáo tổng hợp theo lớp','Xuất Excel / PDF (minh họa)')+tableHTML(['Lớp','Sĩ số','ĐRL trung bình'],rows));
+  setTimeout(function(){initChart('chart-rep1',0);initChartPie('chart-rep2',0);},150);
+  return html;
+};
+M.accounts=function(){
+  var rows=[],i;for(i=0;i<accounts.length;i++){var a=accounts[i];var locked=a.status==='Khóa';
+    rows.push([a.user,a.name,a.role,'<span class="badge" style="background:'+(locked?'rgba(220,38,38,.12)':'rgba(41,122,46,.14)')+';color:'+(locked?'#dc2626':'#297a2e')+';">'+a.status+'</span>',a.last,
+      '<button class="lock-btn acc-toggle" data-user="'+a.user+'" style="color:'+(locked?'#297a2e':'#dc2626')+';font-size:11.5px;font-weight:700;">'+(locked?'Mở khóa':'Khóa')+'</button>']);}
+  var html=card(h2('Danh sách tài khoản người dùng','Khóa/mở tài khoản, phân quyền truy cập')+tableHTML(['Tên đăng nhập','Họ tên','Vai trò','Trạng thái','Đăng nhập cuối','Thao tác'],rows));
+  setTimeout(function(){var btns=document.querySelectorAll('.acc-toggle');var i;for(i=0;i<btns.length;i++)(function(b){b.addEventListener('click',function(){var u=b.getAttribute('data-user');var a=accounts.find(function(x){return x.user===u;});if(a){a.status=a.status==='Khóa'?'Hoạt động':'Khóa';renderMain();}});})(btns[i]);},50);
+  return html;
+};
+M.logs=function(){return card(h2('Nhật ký hệ thống','Ghi lại mọi hoạt động đăng nhập, chỉnh sửa dữ liệu')+logTable(logs));};
+function logTable(arr){var rows=[],i;for(i=0;i<arr.length;i++)rows.push([arr[i].time,arr[i].user,arr[i].action,arr[i].ip]);return tableHTML(['Thời gian','Người dùng','Hành động','Địa chỉ IP'],rows,'12px');}
+M.backup=function(){
+  var rows=[['BACKUP_20241023_2203.zip','2.4 GB','23/10/2024 22:03','Tự động','<span class="badge" style="background:rgba(41,122,46,.14);color:#297a2e;">Thành công</span>'],
+    ['BACKUP_20241022_2203.zip','2.4 GB','22/10/2024 22:03','Tự động','<span class="badge" style="background:rgba(41,122,46,.14);color:#297a2e;">Thành công</span>'],
+    ['BACKUP_20241021_2203.zip','2.3 GB','21/10/2024 22:03','Tự động','<span class="badge" style="background:rgba(41,122,46,.14);color:#297a2e;">Thành công</span>'],
+    ['BACKUP_MANUAL_20241020.zip','2.3 GB','20/10/2024 15:30','Thủ công (admin)','<span class="badge" style="background:rgba(41,122,46,.14);color:#297a2e;">Thành công</span>']];
+  var html='<div class="flex flex-wrap gap-3 mb-5">'+metric('Lần backup cuối','22:03','23/10/2024','var(--accent)')+metric('Kích thước','2.4 GB','Dữ liệu nén','#0d9488')+metric('Tự động','Hàng ngày','22:03 mỗi ngày','#d97706')+metric('Bản lưu trữ','30','Giữ trong 30 ngày','#7c3aed')+'</div>';
+  html+=card(h2('Sao lưu &amp; phục hồi dữ liệu')+'<button id="bk-now" style="margin-bottom:14px;padding:9px 18px;border-radius:9px;background:var(--accent);color:#fff;font-weight:700;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;">Tạo bản sao lưu ngay</button><span id="bk-msg" style="margin-left:12px;font-size:12px;color:var(--accent);font-weight:600;"></span>'
+    +tableHTML(['Tên file','Kích thước','Thời gian','Loại','Trạng thái'],rows));
+  setTimeout(function(){var b=$('bk-now');if(b)b.addEventListener('click',function(){$('bk-msg').textContent='Đang tạo bản sao lưu...';setTimeout(function(){$('bk-msg').textContent='Hoàn thành! File: BACKUP_MANUAL_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.zip';},1500);});},50);
+  return html;
+};
+function tableHTML(headers,rows,fs){
+  var h='<div style="overflow-x:auto;"><table class="w-full" style="min-width:'+(headers.length*100)+'px;border-collapse:collapse;font-size:'+(fs||'12.5px')+';"><thead><tr style="color:var(--muted);border-bottom:1px solid var(--border);background:rgba(41,122,46,.04);" class="text-xs uppercase">';
+  var i;for(i=0;i<headers.length;i++)h+='<th class="text-left py-2.5 px-3 font-semibold">'+headers[i]+'</th>';
+  h+='</tr></thead><tbody style="color:var(--text);">';
+  for(i=0;i<rows.length;i++){h+='<tr class="tbl-row" style="border-bottom:1px solid var(--border);">';for(var j=0;j<rows[i].length;j++)h+='<td class="py-2.5 px-3">'+rows[i][j]+'</td>';h+='</tr>';}
+  h+='</tbody></table></div>';return h;
+}
+var chartInstances={};
+function chartColors(){var st=getComputedStyle(document.documentElement);return{muted:st.getPropertyValue('--muted').trim()||'#64748b',border:st.getPropertyValue('--border').trim()||'rgba(15,23,42,.08)',card:st.getPropertyValue('--card').trim()||'#fff',text:st.getPropertyValue('--text').trim()||'#0f172a'};}
+function initChart(id,n){
+  try{var el=$(id);if(!el||el.offsetWidth===0){if(n<30){setTimeout(function(){initChart(id,n+1);},200);}return;}
+    if(typeof echarts==='undefined'){if(n<40){setTimeout(function(){initChart(id,n+1);},250);}return;}
+    if(chartInstances[id])chartInstances[id].dispose();
+    var c=echarts.init(el);chartInstances[id]=c;
+    var counts={'Xuất sắc':0,'Giỏi':0,'Khá':0,'Trung bình':0,'Yếu':0},i;
+    for(i=0;i<students.length;i++)counts[classifyDRL(finalDRL(students[i])).label]++;
+    var col=chartColors();
+    c.setOption({backgroundColor:'transparent',tooltip:{trigger:'axis',backgroundColor:col.card,borderColor:col.border,textStyle:{color:col.text}},grid:{left:'3%',right:'4%',bottom:'3%',top:'12%',containLabel:true},
+      xAxis:{type:'category',data:['Xuất sắc','Giỏi','Khá','Trung bình','Yếu'],axisLabel:{color:col.muted,fontSize:11},axisTick:{show:false},axisLine:{lineStyle:{color:col.border}}},
+      yAxis:{type:'value',axisLabel:{color:col.muted},splitLine:{lineStyle:{color:col.border}},minInterval:1},
+      series:[{type:'bar',barWidth:'46%',itemStyle:{borderRadius:[8,8,0,0]},label:{show:true,position:'top',color:col.text,fontWeight:700},data:[
+        {value:counts['Xuất sắc'],itemStyle:{color:'#297a2e'}},{value:counts['Giỏi'],itemStyle:{color:'#0d9488'}},{value:counts['Khá'],itemStyle:{color:'#d97706'}},{value:counts['Trung bình'],itemStyle:{color:'#7c3aed'}},{value:counts['Yếu'],itemStyle:{color:'#dc2626'}}]}]});
+  }catch(e){console.error(e);}
+}
+function initChartPie(id,n){
+  try{var el=$(id);if(!el||el.offsetWidth===0){if(n<30){setTimeout(function(){initChartPie(id,n+1);},200);}return;}
+    if(typeof echarts==='undefined'){if(n<40){setTimeout(function(){initChartPie(id,n+1);},250);}return;}
+    if(chartInstances[id])chartInstances[id].dispose();
+    var c=echarts.init(el);chartInstances[id]=c;
+    var ct={'Đã đủ':0,'Chưa đủ':0,'Chưa đóng':0},k;for(k in tuition){if(tuition.hasOwnProperty(k))ct[tuition[k].status]++;}
+    var col=chartColors();
+    c.setOption({backgroundColor:'transparent',tooltip:{trigger:'item',backgroundColor:col.card,borderColor:col.border,textStyle:{color:col.text}},legend:{bottom:0,textStyle:{color:col.muted,fontSize:11}},
+      series:[{type:'pie',radius:['40%','68%'],center:['50%','45%'],label:{color:col.text,fontWeight:600,fontSize:11},itemStyle:{borderRadius:6,borderColor:col.card,borderWidth:2},data:[
+        {value:ct['Đã đủ'],name:'Đã đóng đủ',itemStyle:{color:'#297a2e'}},{value:ct['Chưa đủ'],name:'Còn thiếu',itemStyle:{color:'#d97706'}},{value:ct['Chưa đóng'],name:'Chưa đóng',itemStyle:{color:'#dc2626'}}]}]});
+  }catch(e){console.error(e);}
+}
+window.addEventListener('resize',function(){for(var k in chartInstances){if(chartInstances.hasOwnProperty(k)){try{chartInstances[k].resize();}catch(e){}}}});
+
+// ============ LOGIN ============
+function showErr(msg){var eb=$('login-err');eb.textContent=msg;var box=$('login-box');box.classList.remove('shake');void box.offsetWidth;box.classList.add('shake');}
+function doLogin(){
+  var u=$('login-user').value.trim().toLowerCase();
+  var p=$('login-pass').value;
+  if(!u||!p){showErr('Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!');return;}
+  var acc=null,i;
+  for(i=0;i<accounts.length;i++){if(accounts[i].user===u){acc=accounts[i];break;}}
+  if(!acc){showErr('Tên đăng nhập không tồn tại!');return;}
+  if(acc.status==='Khóa'){showErr('Tài khoản "'+u+'" đang bị khóa. Vui lòng liên hệ Quản trị viên!');return;}
+  if(p!==DEMO_PASS){showErr('Sai mật khẩu! Mật khẩu demo: '+DEMO_PASS);return;}
+  currentUser=acc;
+  var roleKey=ROLE_MAP[acc.role]||'sv';
+  state.role=roleKey;state.mod=ROLES[roleKey].modules[0][0];
+  $('login-screen').style.display='none';
+  $('login-err').textContent='';$('login-pass').value='';
+  renderAll();
+}
+$('login-btn').addEventListener('click',doLogin);
+$('login-pass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+$('login-user').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+var demoBtns=document.querySelectorAll('.demo-acc');
+var di;for(di=0;di<demoBtns.length;di++)(function(b){b.addEventListener('click',function(){$('login-user').value=b.getAttribute('data-u');$('login-pass').value=DEMO_PASS;$('login-err').textContent='';});})(demoBtns[di]);
+$('logout-btn').addEventListener('click',function(){
+  currentUser=null;
+  $('login-user').value='';$('login-pass').value='';$('login-err').textContent='';
+  $('login-screen').style.display='flex';
+});
+
+function renderMain(){
+  var fn=M[state.mod]||M.dash;
+  $('main-content').innerHTML=fn();
+  $('main-content').classList.remove('fade-in');void $('main-content').offsetWidth;$('main-content').classList.add('fade-in');
+}
+function renderAll(){renderRoleBar();renderModBar();renderMain();}
+renderAll();
+
+}catch(err){var eb=$('err-box');if(eb){eb.style.display='block';eb.textContent='Lỗi: '+err.message;}console.error(err);}
+})();
+</script>
+</html>
